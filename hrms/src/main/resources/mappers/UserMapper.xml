@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.engis.esd.hrms.users.UserMapper">
+
+    <resultMap type="com.engis.esd.hrms.users.dto.UserDTO" id="userResultMap">
+        <id column="NO" property="no"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="USER_PWD" property="userPwd"/>
+        <result column="USER_NM" property="userNm"/>
+        <result column="USER_DATE" property="userDate"/>
+        <result column="USER_STATUS" property="userStatus"/>
+        <result column="ROLE_ID" property="roleId"/>
+    </resultMap>
+
+    <resultMap type="com.engis.esd.hrms.users.dto.RoleDTO" id="roleResultMap">
+        <id column="ROLE_ID" property="roleId"/>
+        <result column="ROLE_NM" property="roleNm"/>
+    </resultMap>
+
+
+    <select id="getUser" resultMap="userResultMap">
+        SELECT * FROM "USER"
+        WHERE "USER_ID" = #{userId}
+        AND "USER_PWD" = #{userPwd}
+    </select>
+
+</mapper>

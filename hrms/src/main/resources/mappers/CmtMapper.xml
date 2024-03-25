@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.engis.esd.hrms.cmt.CmtMapper">
+
+    <resultMap type="com.engis.esd.hrms.cmt.dto.CmtDTO" id="cmtResultMap">
+        <id column="CMT_NO" property="cmtNo"/>
+        <id column="NO" property="no"/>
+        <result column="ATT_TIME" property="attTime"/>
+        <result column="LV_WRK_TIME" property="lvWrkTime"/>
+    </resultMap>
+
+    <select id="findUserTime" resultMap="cmtResultMap">
+        SELECT "CMT_NO",
+               "NO",
+               "ATT_TIME",
+               "LV_WRK_TIME"
+        FROM "CMT"
+        WHERE "NO" = ${userNo}
+        ORDER BY "CMT_NO" DESC
+        LIMIT 1
+    </select>
+
+    <insert id="setWorkStart">
+        INSERT INTO "CMT" (
+            "CMT_NO", "NO", "ATT_TIME"
+        ) VALUES
+        (
+            NEXTVAL('CMT_NO_SEQ'), ${no}, TO_CHAR(NOW(),'YYYY/MM/DD HH24:MI:SS')
+        )
+    </insert>
+
+    <update id="setWorkEnd">
+        UPDATE "CMT"
+        SET "LV_WRK_TIME"= TO_CHAR(NOW(),'YYYY/MM/DD HH24:MI:SS')
+        WHERE "NO" = ${no}
+        AND "LV_WRK_TIME" IS NULL
+    </update>
+
+</mapper>
