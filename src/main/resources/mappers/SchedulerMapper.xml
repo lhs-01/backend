@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.engis.esd.hrms.SchedulerMapper">
 
-    <resultMap type="com.engis.esd.hrms.cmt.dto.CmtDTO" id="cmtResultMap">
+    <resultMap type="com.engis.esd.hrms.atnd.dto.AtndDTO" id="cmtResultMap">
         <id column="CMT_NO" property="cmtNo"/>
         <id column="NO" property="no"/>
         <result column="ATT_TIME" property="attTime"/>

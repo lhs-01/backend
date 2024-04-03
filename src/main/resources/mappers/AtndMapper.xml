@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.engis.esd.hrms.atnd.AtndMapper">
+
+    <resultMap type="com.engis.esd.hrms.atnd.dto.AtndDTO" id="cmtResultMap">
+        <id column="NO" property="no"/>
+        <id column="M_NO" property="MNo"/>
+        <result column="START_TIME" property="startTime"/>
+        <result column="END_TIME" property="endTime"/>
+        <result column="STATE" property="state"/>
+        <result column="TODAY" property="today"/>
+    </resultMap>
+
+    <insert id="insertAtnd">
+        insert into "tb_atnd" (NO, M_NO, TODAY)
+        VALUES ((SELECT COALESCE(max(no) + 1, 1) FROM "tb_atnd"),
+                #{memberNo},
+                (select now()))
+    </insert>
+
+    <select id="findAtnd" resultMap="cmtResultMap">
+        select *
+        from (select row_number() over (order by no desc ) as rownum, * from "tb_atnd" where "m_no" = #{memberNo}) a
+        where rownum = 1
+    </select>
+
+    <update id="updateStartTime">
+        update "tb_atnd"
+        set "start_time" = (select now()), "state" = #{state}
+        where no = #{no}
+    </update>
+
+    <update id="updateEndTime">
+        update "tb_atnd"
+        set "end_time" = (select now()), "state" = #{state}
+        where no = #{no}
+    </update>
+
+    <update id="udpateState">
+        update "tb_atnd"
+        set "state" = #{state}
+        where no = #{no}
+    </update>
+
+</mapper>
